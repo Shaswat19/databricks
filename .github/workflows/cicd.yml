@@ -44,7 +44,7 @@ jobs:
         
         # Merge the staging branch into production
         # git merge --allow-unrelated-histories --no-ff --no-edit staging
-        git merge --allow-unrelated-histories  --no-edit staging
+        git merge staging --allow-unrelated-histories  --no-edit 
         
         # Push the merged changes to the remote production branch
         git push origin production
