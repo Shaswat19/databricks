@@ -30,9 +30,10 @@ jobs:
       run: |
         echo "Initial Branch"
         git rev-parse --abbrev-ref HEAD
-        cat .github/workflows/cicd.yml
+        #cat .github/workflows/cicd.yml
         git config --global user.name 'GitHub Actions'
         git config --global user.email 'actions@github.com'
+        git config pull.rebase false
         git fetch 
         git pull origin production
         
@@ -41,7 +42,7 @@ jobs:
         git checkout production
         echo "After checkout Branch"
         git rev-parse --abbrev-ref HEAD
-        cat .github/workflows/cicd.yml
+        #cat .github/workflows/cicd.yml
         
         
         # Merge the remote production branch with the local production branch
