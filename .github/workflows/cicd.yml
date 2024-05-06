@@ -28,6 +28,9 @@ jobs:
     - uses: actions/checkout@v3
     - name: Merge stage -> prod
       run: |
+        echo "Initial Branch"
+        git rev-parse --abbrev-ref HEAD
+        cat .github/workflows/cicd.yml
         git config --global user.name 'GitHub Actions'
         git config --global user.email 'actions@github.com'
         git fetch 
@@ -36,6 +39,9 @@ jobs:
         
         # Switch to the production branch
         git checkout production
+        echo "After checkout Branch"
+        git rev-parse --abbrev-ref HEAD
+        cat .github/workflows/cicd.yml
         
         
         # Merge the remote production branch with the local production branch
