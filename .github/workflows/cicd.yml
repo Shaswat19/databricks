@@ -36,16 +36,33 @@ jobs:
         git checkout production
         
         # Merge the remote production branch with the local production branch
-        # git merge --allow-unrelated-histories origin/production
-        git pull origin production
+        git merge --allow-unrelated-histories origin/production
         
-        # Merge the staging branch into production
-        # git merge --allow-unrelated-histories --no-ff --no-edit staging
-        git merge staging --allow-unrelated-histories  --no-edit 
-
+        # Create a temporary branch for the staging changes
+        git checkout -b tmp-staging
         
-        # Push the merged changes to the remote production branch
+        # Copy all files and folders from the staging branch
+        git checkout staging -- .
+        
+        # Stash the changes from the staging branch
+        git stash
+        
+        # Switch back to the production branch
+        git checkout production
+        
+        # Apply the stashed changes (updates existing files, adds new files/folders)
+        git stash apply
+        
+        # Add and commit the changes
+        git add .
+        git commit -m "Update production with changes from staging"
+        
+        # Push the changes to the remote production branch
         git push origin production
+        
+        # Clean up the temporary branch
+        git checkout master
+        git branch -D tmp-staging
        
         
 
