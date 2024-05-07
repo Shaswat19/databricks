@@ -40,24 +40,28 @@ jobs:
         
         # Copy changes from the staging branch
         git checkout staging
-        git checkout staging -- .
+        STAGING_CHANGES=$(git diff --name-only production)
         
-        # Stash the changes from the staging branch
-        git stash
-        
-        # Switch back to the production branch
-        git checkout production
-        
-        # Apply the stashed changes (updates existing files, adds new files/folders)
-        git stash apply
+        if [ -n "$STAGING_CHANGES" ]; then
+          # There are changes to copy from staging
+          git checkout staging -- .
+          
+          # Stash the changes from the staging branch
+          git stash
+          
+          # Switch back to the production branch
+          git checkout production
+          
+          # Apply the stashed changes (updates existing files, adds new files/folders)
+          git stash apply
+        fi
         
         # Add and commit the changes
         git add .
-        git commit -m "Update production with changes from staging"
+        git commit -m "Update production with changes from staging" || true
         
         # Push the changes to the remote production branch
         git push origin production
-       
         
 
         
