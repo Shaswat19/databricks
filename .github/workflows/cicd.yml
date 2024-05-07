@@ -38,10 +38,8 @@ jobs:
         # Merge the remote production branch with the local production branch
         git merge --allow-unrelated-histories origin/production
         
-        # Create a temporary branch for the staging changes
-        git checkout -b tmp-staging
-        
-        # Copy all files and folders from the staging branch
+        # Copy changes from the staging branch
+        git checkout staging
         git checkout staging -- .
         
         # Stash the changes from the staging branch
@@ -59,10 +57,6 @@ jobs:
         
         # Push the changes to the remote production branch
         git push origin production
-        
-        # Clean up the temporary branch
-        git checkout master
-        git branch -D tmp-staging
        
         
 
