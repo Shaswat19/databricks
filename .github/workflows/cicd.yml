@@ -26,30 +26,30 @@ jobs:
       name: Production 
     steps:
     - name: Checkout Repository
-        uses: actions/checkout@v2
-        with:
-          ref: staging
-          fetch-depth: 0
+      uses: actions/checkout@v2
+      with:
+        ref: staging
+        fetch-depth: 0
 
-      - name: Configure Git
-        run: |
-          git config --global user.email "github-actions@example.com"
-          git config --global user.name "GitHub Actions"
+    - name: Configure Git
+      run: |
+        git config --global user.email "github-actions@example.com"
+        git config --global user.name "GitHub Actions"
 
-      - name: Checkout Production Branch
-        run: git checkout production
+    - name: Checkout Production Branch
+      run: git checkout production
 
-      - name: Pull Production Branch
-        run: git pull origin production
+    - name: Pull Production Branch
+      run: git pull origin production
 
-      - name: Merge Staging Branch
-        run: git merge staging
+    - name: Merge Staging Branch
+      run: git merge staging
 
-      - name: Push to Production Branch
-        run: git push origin production
+    - name: Push to Production Branch
+      run: git push origin production
 
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         
 
         
