@@ -25,45 +25,31 @@ jobs:
     environment: 
       name: Production 
     steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - name: Merge stage -> prod
-      run: |
-        git config --global user.name 'GitHub Actions'
-        git config --global user.email 'actions@github.com'
-        # git fetch origin production
-        
-        # Switch to the production branch
-        git checkout production
-        
-        # Merge the remote production branch with the local production branch
-        git merge --allow-unrelated-histories -S resolve staging
-        
-        # # Copy changes from the staging branch
-        # git checkout staging
-        # STAGING_CHANGES=$(git diff --name-only production)
-        
-        # if [ -n "$STAGING_CHANGES" ]; then
-        #   # There are changes to copy from staging
-        #   git checkout staging -- .
-          
-        #   # Stash the changes from the staging branch
-        #   git stash
-          
-        #   # Switch back to the production branch
-        #   git checkout production
-          
-        #   # Apply the stashed changes (updates existing files, adds new files/folders)
-        #   git stash apply
-        # fi
-        
-        # # Add and commit the changes
-        # git add .
-        # git commit -m "Update production with changes from staging" || true
-        
-        # # Push the changes to the remote production branch
-        # git push origin production
+    - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          ref: staging
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions@example.com"
+          git config --global user.name "GitHub Actions"
+
+      - name: Checkout Production Branch
+        run: git checkout production
+
+      - name: Pull Production Branch
+        run: git pull origin production
+
+      - name: Merge Staging Branch
+        run: git merge staging
+
+      - name: Push to Production Branch
+        run: git push origin production
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         
 
         
