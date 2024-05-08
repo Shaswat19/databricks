@@ -48,8 +48,8 @@ jobs:
       - name: Push to Production Branch
         run: git push origin production
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         
 
         
