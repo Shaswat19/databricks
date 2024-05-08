@@ -32,38 +32,38 @@ jobs:
       run: |
         git config --global user.name 'GitHub Actions'
         git config --global user.email 'actions@github.com'
-        git fetch origin production
+        # git fetch origin production
         
         # Switch to the production branch
         git checkout production
         
         # Merge the remote production branch with the local production branch
-        git merge --allow-unrelated-histories origin/staging
+        git merge --allow-unrelated-histories origin staging
         
-        # Copy changes from the staging branch
-        git checkout staging
-        STAGING_CHANGES=$(git diff --name-only production)
+        # # Copy changes from the staging branch
+        # git checkout staging
+        # STAGING_CHANGES=$(git diff --name-only production)
         
-        if [ -n "$STAGING_CHANGES" ]; then
-          # There are changes to copy from staging
-          git checkout staging -- .
+        # if [ -n "$STAGING_CHANGES" ]; then
+        #   # There are changes to copy from staging
+        #   git checkout staging -- .
           
-          # Stash the changes from the staging branch
-          git stash
+        #   # Stash the changes from the staging branch
+        #   git stash
           
-          # Switch back to the production branch
-          git checkout production
+        #   # Switch back to the production branch
+        #   git checkout production
           
-          # Apply the stashed changes (updates existing files, adds new files/folders)
-          git stash apply
-        fi
+        #   # Apply the stashed changes (updates existing files, adds new files/folders)
+        #   git stash apply
+        # fi
         
-        # Add and commit the changes
-        git add .
-        git commit -m "Update production with changes from staging" || true
+        # # Add and commit the changes
+        # git add .
+        # git commit -m "Update production with changes from staging" || true
         
-        # Push the changes to the remote production branch
-        git push origin production
+        # # Push the changes to the remote production branch
+        # git push origin production
         
 
         
