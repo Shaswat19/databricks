@@ -38,7 +38,7 @@ jobs:
         git checkout production
         
         # Merge the remote production branch with the local production branch
-        git merge --allow-unrelated-histories staging
+        git merge --allow-unrelated-histories -S resolve staging
         
         # # Copy changes from the staging branch
         # git checkout staging
