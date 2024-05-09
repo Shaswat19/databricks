@@ -1,0 +1,51 @@
+name: cicd
+
+on:
+  push:
+    branches: [ staging ]
+  pull_request:
+    branches: [ staging ]
+  workflow_dispatch:
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Compile
+        run: echo Hello, world!
+    
+
+            
+  DeployProd:
+    name: Deploy to Production 
+    runs-on: ubuntu-latest
+    needs: [Build]
+    environment: 
+      name: Production 
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Configure Git
+      run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git fetch origin production
+          
+          # Switch to the production branch
+          git checkout production
+          
+          # Merge the remote production branch with the local production branch
+          git merge --allow-unrelated-histories origin/production
+          
+          # Merge the staging branch into production
+          git merge --allow-unrelated-histories --no-ff --no-edit origin/staging
+          
+          # Push the merged changes to the remote production branch
+          git push origin production
+       
+        
+
+        
