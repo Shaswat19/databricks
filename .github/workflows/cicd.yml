@@ -27,9 +27,6 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-      with:
-        ref: staging
-        fetch-depth: 0
 
     - name: Configure Git
       run: |
