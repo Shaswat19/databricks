@@ -32,20 +32,20 @@ jobs:
       run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'actions@github.com'
-          - name: Fetch changes
-            run: git fetch origin
+    - name: Fetch changes
+      run: git fetch origin
 
-          - name: Show diff
-            run: git diff production..staging
-    
-          - name: Switch to production branch
-            run: git checkout production
-    
-          - name: Merge changes from staging
-            run: git merge staging --no-edit
-    
-          - name: Push changes to production
-            run: git push origin production
+    - name: Show diff
+      run: git diff production..staging
+
+    - name: Switch to production branch
+      run: git checkout production
+
+    - name: Merge changes from staging
+      run: git merge staging --no-edit
+
+    - name: Push changes to production
+      run: git push origin production
         
 
         
