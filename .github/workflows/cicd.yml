@@ -32,20 +32,20 @@ jobs:
       run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'actions@github.com'
-          git fetch origin production
-          
-          # Switch to the production branch
-          git checkout production
-          
-          # Merge the remote production branch with the local production branch
-          git merge --allow-unrelated-histories origin/production
-          
-          # Merge the staging branch into production
-          git merge --allow-unrelated-histories --no-ff --no-edit origin/staging
-          
-          # Push the merged changes to the remote production branch
-          git push origin production
-       
+          - name: Fetch changes
+            run: git fetch origin
+
+          - name: Show diff
+            run: git diff production..staging
+    
+          - name: Switch to production branch
+            run: git checkout production
+    
+          - name: Merge changes from staging
+            run: git merge staging --no-edit
+    
+          - name: Push changes to production
+            run: git push origin production
         
 
         
