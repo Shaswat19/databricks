@@ -42,7 +42,7 @@ jobs:
 
     - name: Switch to production branch
       run: | 
-           git checkout production
+           git checkout -b production
            git pull origin staging
       
     # - name: Merge changes from staging
