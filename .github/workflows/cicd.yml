@@ -42,7 +42,7 @@ jobs:
           git pull origin production
           git checkout staging
           git rebase production
-          git push origin staging --force
+          git push origin production --force
       
     # - name: Merge changes from staging
     #   run: git merge staging --no-edit
