@@ -35,14 +35,14 @@ jobs:
     
     - name: Fetch changes
       run: |
-          git fetch origin staging
+          git fetch 
           # git fetch origin staging:staging
 
     
 
     - name: Switch to production branch
       run: | 
-           git checkout -b production
+           git checkout production
            git pull origin production
           
            git pull origin staging
