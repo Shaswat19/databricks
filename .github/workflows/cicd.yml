@@ -39,8 +39,8 @@ jobs:
       run: | 
           git fetch --prune --unshallow
           git checkout production
-          git pull origin production
-          git checkout staging
+          git pull origin staging
+          git checkout production
           git rebase production
           git push origin production --force
       
