@@ -42,17 +42,15 @@ jobs:
 
     - name: Switch to production branch
       run: | 
-           git checkout production
-           
-           git pull origin  production
-           git config pull.ff
-           git pull origin staging
+          git checkout production
+          git merge --ff-only staging
+          git push origin production
       
     # - name: Merge changes from staging
     #   run: git merge staging --no-edit
 
-    - name: Push changes to production
-      run: git push origin production
+    # - name: Push changes to production
+    #   run: git push origin production
         
 
         
