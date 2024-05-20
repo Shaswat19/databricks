@@ -43,7 +43,7 @@ jobs:
     - name: Switch to production branch
       run: | 
           git checkout production
-          git merge --no-ff --allow-unrelated-histories staging
+          git merge --no-ff --no-edit --allow-unrelated-histories staging
           git push origin production
       
     # - name: Merge changes from staging
