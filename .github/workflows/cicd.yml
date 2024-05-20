@@ -42,14 +42,14 @@ jobs:
           git rebase production
           git push origin production --force
       
-      - name: Install databricks CLI
-        run: |
+    - name: Install databricks CLI
+      run: |
             curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
-      - name: Update databricks repo
-        env:
+    - name: Update databricks repo
+      env:
           DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-        run: |
+      run: |
           databricks repos update /Workspace/Repos/shaswat.pandey@onebyzero.ai/databricks --branch production
     # - name: Merge changes from staging
     #   run: git merge staging --no-edit
