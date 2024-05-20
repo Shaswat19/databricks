@@ -35,17 +35,18 @@ jobs:
     
     - name: Fetch changes
       run: |
-          git fetch origin production:production
-          git fetch origin staging:staging
+          git fetch origin staging
+          # git fetch origin staging:staging
 
-    - name: Show diff
-      run: git diff production..staging
+    
 
     - name: Switch to production branch
-      run: git checkout production
-
-    - name: Merge changes from staging
-      run: git merge staging --no-edit
+      run: | 
+           git checkout production
+           git pull origin staging
+      
+    # - name: Merge changes from staging
+    #   run: git merge staging --no-edit
 
     - name: Push changes to production
       run: git push origin production
