@@ -54,7 +54,7 @@ jobs:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
       run: |
-          databricks repos update --branch production --path /Workspace/Repos/shaswat.pandey@onebyzero.ai
+          databricks repos update --branch production --path /Repos/shaswat.pandey@onebyzero.ai/databricks
       
     
     # - name: Merge changes from staging
