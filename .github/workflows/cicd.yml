@@ -15,13 +15,19 @@ jobs:
 
       - name: Compile
         run: echo Hello, world!
+        
+  Integration_testing:
+    runs-on: ubuntu-latest
+    needs: [Build]
+    steps:
+      - uses: ./.github/workflows/testing.yml
     
 
             
   DeployProd:
     name: Deploy to Production 
     runs-on: ubuntu-latest
-    needs: [Build]
+    needs: [Integration_testing]
     environment: 
       name: Production
       url: ${{ github.event.pull_request.html_url }}
