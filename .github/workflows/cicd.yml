@@ -38,7 +38,7 @@ jobs:
           ls -R tests
 
       - name: Run integration tests
-        run: pytest --rootdir=./tests -v
+        run: pytest tests -v
     continue-on-error: false
 
             
