@@ -32,7 +32,7 @@ jobs:
           pip install pytest
 
       - name: Run integration tests
-        run: pytest testing
+        run: pytest tests
     continue-on-error: false
 
             
