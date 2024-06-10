@@ -35,7 +35,7 @@ jobs:
           echo "Listing files in the root directory"
           ls -R
           echo "Listing files in the testing directory"
-          ls -R testing
+          ls -R tests
 
       - name: Run integration tests
         run: pytest --rootdir=./tests -v
