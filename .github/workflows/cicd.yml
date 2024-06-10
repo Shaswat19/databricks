@@ -32,7 +32,7 @@ jobs:
           pip install pytest
 
       - name: Run integration tests
-        run: python -m pytest 
+        run: pytest --rootdir=./tests -v
     continue-on-error: false
 
             
