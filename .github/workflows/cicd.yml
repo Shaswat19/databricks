@@ -38,7 +38,7 @@ jobs:
           ls -R tests
 
       - name: Run integration tests
-        run: python -m pytest tests -v
+        run:  pytest tests/
     continue-on-error: false
 
             
