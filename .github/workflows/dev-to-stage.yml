@@ -1,0 +1,72 @@
+name: CI/CD (dev-to-stage)
+
+on:
+  pull_request:
+    branches:
+      - dev
+    types:
+      - closed
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Compile
+        run: echo Hello, world!
+        
+  Integration_testing:
+    needs: [Build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pytest
+      - name: List files for debugging
+        run: |
+          echo "Listing files in the root directory"
+          ls -R
+          echo "Listing files in the testing directory"
+          ls -R tests
+
+      - name: Run integration tests
+        run:  pytest tests/
+    continue-on-error: false
+
+
+  create-pull-request:
+    needs: [Integration_testing]
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && success()
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Create new branch
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git checkout -b dev-sprint-1.0
+
+      - name: Push new branch
+        run: |
+          git push origin dev-sprint-1.0
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'Merge dev-sprint-1.0 into staging'
+          branch: dev-sprint-1.0
+          base: staging
+          title: 'Merge dev-sprint-1.0 into staging'
+          body: 'Automated pull request to merge dev-sprint-1.0 into staging after successful tests.'
