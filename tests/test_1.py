@@ -1,6 +1,6 @@
 
 def test_function():
-  a=3
+  a=4
   assert a==2
 
 
