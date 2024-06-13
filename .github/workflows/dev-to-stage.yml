@@ -67,6 +67,11 @@ jobs:
           git push origin dev-sprint-1.0 --force
 
       - name: Create pull request
-        run: gh pr create -B staging -H dev-sprint-1.0 --title 'Merge dev-sprint-1.0 into staging' --body 'Created by Github action'
-        env:
-            GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        uses: peter-evans/create-pull-request@v3.10.1
+        with:
+          token: ${{ secrets.GH_PAT }}
+          commit-message: Auto Pull Request
+          title: Auto PR
+          body: Auto-created Pull Request
+          branch: dev-sprint-1.0 # The branch where you commit
+          base: staging # Don't forget to specify the right base branch here
