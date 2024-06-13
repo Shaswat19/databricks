@@ -59,7 +59,12 @@ jobs:
 
       - name: Push new branch
         run: |
-          git push origin dev-sprint-1.0
+          git fetch --prune --unshallow
+          git checkout dev-sprint-1.0
+          git pull origin dev
+          git checkout dev-sprint-1.0
+          git rebase dev-sprint-1.0
+          git push origin dev-sprint-1.0 --force
 
       - name: Create pull request
         run: gh pr create -B staging -H dev-sprint-1.0 --title 'Merge dev-sprint-1.0 into staging' --body 'Created by Github action'
