@@ -64,7 +64,7 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_PAT }}
           commit-message: 'Merge dev-sprint-1.0 into staging'
           branch: dev-sprint-1.0
           base: staging
