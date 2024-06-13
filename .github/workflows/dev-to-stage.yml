@@ -62,11 +62,6 @@ jobs:
           git push origin dev-sprint-1.0
 
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GH_PAT }}
-          commit-message: 'Merge dev-sprint-1.0 into staging'
-          branch: dev-sprint-1.0
-          base: staging
-          title: 'Merge dev-sprint-1.0 into staging'
-          body: 'Automated pull request to merge dev-sprint-1.0 into staging after successful tests.'
+        run: gh pr create -B staging -H dev-sprint-1.0 --title 'Merge dev-sprint-1.0 into staging' --body 'Created by Github action'
+        env:
+            GITHUB_TOKEN: ${{ secrets.GH_PAT }}
