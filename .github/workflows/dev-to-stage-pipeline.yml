@@ -11,13 +11,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+      - name: Setup python
+        uses: actions/setup-python@v2
       - name: Login to Databricks
         env:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: |
-          pip install databricks-cli
-          databricks configure --token ${DATABRICKS_TOKEN} --profile shaswat
+          python -m pip install --upgrade databricks-cli
 
       - name: Get pipelines from Databricks Dev workspace
         run: |
