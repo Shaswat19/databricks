@@ -13,10 +13,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Login to Databricks
-        uses: databricks-actions/login@v2
-        with:
-          databricks-host: ${{ secrets.DATABRICKS_HOST }}
-          databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          pip install databricks-cli
+          databricks configure --token ${(secrets.DATABRICKS_TOKEN})
 
       - name: Get pipelines from Databricks Dev workspace
         run: |
