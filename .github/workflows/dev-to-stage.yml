@@ -48,30 +48,25 @@ jobs:
     if: github.event.pull_request.merged == true && success()
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: checking out code
+        uses: actions/checkout@v2
 
-      - name: Create new branch
-        run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
-          git checkout -b dev-sprint-1.0
+      - name: extract git commit data
+        uses: rlespinasse/git-commit-data-action@v1.x
 
-      - name: Push new branch
-        run: |
-          git fetch --prune --unshallow
-          git checkout dev-sprint-1.0
-          git pull origin dev
-          git checkout dev-sprint-1.0
-          git rebase dev-sprint-1.0
-          git push origin dev-sprint-1.0 --force
+      - name: Update author information
+        run: echo ${{ env.GIT_COMMIT_AUTHOR_NAME }} > AUTHOR
 
-      - name: Create pull request
-        uses: peter-evans/create-pull-request@v3.10.1
+      - name: Raise PR 1
+        id: demo-1
+        uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.GH_PAT }}
-          commit-message: Auto Pull Request
-          title: Auto PR
-          body: Auto-created Pull Request
-          branch: dev-sprint-1.0 # The branch where you commit
-          base: staging # Don't forget to specify the right base branch here
+          branch: "dev-sprint-1.0"
+          base: staging
+          title: "demo for auto pr1"
+          committer: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
+          author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
+          body:
+            This is to show automatic PR creation
+          token: ${{ secrets.GITHUB_TOKEN }}
+          delete-branch: true
