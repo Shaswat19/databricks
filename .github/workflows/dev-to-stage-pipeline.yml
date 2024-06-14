@@ -15,7 +15,7 @@ jobs:
       - name: Login to Databricks
         run: |
           pip install databricks-cli
-          databricks configure --token ${(secrets.DATABRICKS_TOKEN})
+          databricks configure --token ${(secrets.DATABRICKS_TOKEN}}
 
       - name: Get pipelines from Databricks Dev workspace
         run: |
