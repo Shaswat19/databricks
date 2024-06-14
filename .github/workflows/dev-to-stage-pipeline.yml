@@ -1,0 +1,33 @@
+name: Update Databricks Staging Pipelines
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  update-pipelines:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login to Databricks
+        uses: databricks-actions/login@v1
+        with:
+          databricks-host: ${{ secrets.DATABRICKS_HOST }}
+          databricks-token: ${{ secrets.DATABRICKS_TOKEN }}
+
+      - name: Get pipelines from Databricks Dev workspace
+        run: |
+          pipelines=$(databricks pipelines list --workspace-id ${{secrets.DATABRICKS_DEV_WORKSPACE_ID}} --output JSON | jq -r '.pipelines[] | .pipeline_id')
+          echo "Pipelines to update: $pipelines"
+
+      - name: Update pipelines in Databricks Staging workspace
+        run: |
+          for pipeline in $pipelines; do
+            databricks pipelines update --workspace-id ${{secrets.DATABRICKS_STAGING_WORKSPACE_ID}} --pipeline-id $pipeline --json-file <(databricks pipelines get --workspace-id ${{secrets.DATABRICKS_DEV_WORKSPACE_ID}} --pipeline-id $pipeline --output JSON)
+          done
+
+      - name: Logout from Databricks
+        run: databricks logout
