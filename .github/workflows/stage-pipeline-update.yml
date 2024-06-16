@@ -17,8 +17,8 @@ jobs:
         uses: actions/setup-python@v2
       - name: Execute Python script
         env:
-          DEV_DATABRICKS_INSTANCE: ${{ secrets.DATABRICKS_DEV_INSTANCE }}
-          DEV_DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_DEV_TOKEN }}
-          STAGING_DATABRICKS_INSTANCE: ${{ secrets.DATABRICKS_STAGING_INSTANCE }}
-          STAGING_DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_STAGING_TOKEN }}
+          SOURCE_DATABRICKS_INSTANCE: ${{ secrets.DATABRICKS_DEV_INSTANCE }}
+          SOURCE_DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_DEV_TOKEN }}
+          TARGET_DATABRICKS_INSTANCE: ${{ secrets.DATABRICKS_STAGING_INSTANCE }}
+          TARGET_DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_STAGING_TOKEN }}
         run: python jobs_update.py
