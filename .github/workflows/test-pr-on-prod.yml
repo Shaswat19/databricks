@@ -1,4 +1,4 @@
-name: Integration Test and Merge to Staging
+name: Integration Test and Merge to PROD
 
 on:
   pull_request:
