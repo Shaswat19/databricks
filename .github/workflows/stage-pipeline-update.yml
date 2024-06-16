@@ -1,9 +1,6 @@
 name: Update Jobs in Staging
 
 on:
-  push:
-    branches:
-      - dev
   pull_request:
     branches:
       - staging
