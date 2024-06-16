@@ -1,0 +1,24 @@
+name: Update Jobs in Staging
+
+on:
+  pull_request:
+    branches:
+      - staging
+    types:
+      - closed
+
+jobs:
+  execute-python-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+      - name: Execute Python script
+        env:
+          SOURCE_DATABRICKS_INSTANCE: ${{ secrets.DATABRICKS_DEV_INSTANCE }}
+          SOURCE_DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_DEV_TOKEN }}
+          TARGET_DATABRICKS_INSTANCE: ${{ secrets.DATABRICKS_STAGING_INSTANCE }}
+          TARGET_DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_STAGING_TOKEN }}
+        run: python jobs_update.py
