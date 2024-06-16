@@ -1,0 +1,24 @@
+name: Update Jobs in Staging
+
+on:
+  pull_request:
+    branches:
+      - staging
+    types:
+      - closed
+
+jobs:
+  execute-python-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+      - name: Execute Python script
+        env:
+          DEV_DATABRICKS_URL: ${{ secrets.EMAIL_SENDER }}
+          DEV_DATABRICKS_TOEKEN: ${{ secrets.EMAIL_PASSWORD }}
+          STAGING_DATABRICKS_URL: ${{ secrets.EMAIL_SENDER }}
+          STAGING_DATABRICKS_TOEKEN: ${{ secrets.EMAIL_PASSWORD }}
+        run: python jobs_update.py
