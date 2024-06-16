@@ -1,9 +1,9 @@
 import requests
 import os
-source_token = os.environ.get('DEV_DATABRICKS_TOKEN')
-source_instance = os.environ.get('DEV_DATABRICKS_INSTANCE')
-target_token = os.environ.get('STAGING_DATABRICKS_TOKEN')
-target_instance = os.environ.get('DATABRICKS_STAGING_TOKEN')
+source_token = os.environ.get('SOURCE_DATABRICKS_TOKEN')
+source_instance = os.environ.get('SOURCE_DATABRICKS_INSTANCE')
+target_token = os.environ.get('TARGET_DATABRICKS_TOKEN')
+target_instance = os.environ.get('TARGET_DATABRICKS_INSTANCE')
 # source_token = 'dapi25febb2d20c24e480fa3d57c736563a5'
 # source_instance = 'dbc-379f39be-a8ea.cloud.databricks.com'
 # target_token = 'dapia3a2d9dff4d05ad0ffe401e8df5e50bb'
