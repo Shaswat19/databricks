@@ -1,0 +1,56 @@
+name: Integration Test and Merge to Staging
+
+on:
+  pull_request:
+    branches:
+      - staging
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Compile
+        run: echo Hello, world!
+        
+  Integration_testing:
+    needs: [Build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pytest
+      - name: List files for debugging
+        run: |
+          echo "Listing files in the root directory"
+          ls -R
+          echo "Listing files in the testing directory"
+          ls -R tests
+
+      - name: Run integration tests
+        run:  pytest tests/
+    continue-on-error: false
+    
+  merge:
+    needs: [Integration_testing]
+    if: needs.test.outputs.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge to staging
+        uses: actions/checkout@v2
+      - name: Switch to production branch
+        run: | 
+          git fetch --prune --unshallow
+          git checkout staging
+          git pull origin dev-sprint-1.0
+          git checkout staging
+          git rebase staging
+          git push origin staging --force
