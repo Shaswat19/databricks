@@ -48,7 +48,7 @@ jobs:
   create-pull-request:
     needs: [Integration_testing]
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && success()
+    # if: github.event.pull_request.merged == true && success()
 
     steps:
       - name: checking out code
