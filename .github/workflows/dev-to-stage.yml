@@ -58,7 +58,9 @@ jobs:
         run: git branch dev-sprint-1.0
 
       - name: Push dev-sprint-1.0 branch
-        run: git push origin dev-sprint-1.0
+        run: |
+              git pull origin dev-sprint-1.0
+              git push origin dev-sprint-1.0
 
       - name: create pull request
         run: gh pr create -B staging -H dev-sprint-1.0 --title 'Merge dev-sprint-1.0 into staging' --body 'Created by Github action'
