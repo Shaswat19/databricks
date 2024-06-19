@@ -1,0 +1,69 @@
+name: CI/CD (stage-to-prod)
+
+on:
+  pull_request:
+    branches:
+      - staging
+    types:
+      - closed
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Compile
+        run: echo Hello, world!
+        
+  Integration_testing:
+    needs: [Build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pytest
+      - name: List files for debugging
+        run: |
+          echo "Listing files in the root directory"
+          ls -R
+          echo "Listing files in the testing directory"
+          ls -R tests
+
+      - name: Run integration tests
+        run:  pytest tests/
+    continue-on-error: false
+
+
+  create-pull-request:
+    needs: [Integration_testing]
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && success()
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create dev-sprint-1.0 branch
+        run: git branch staging-sprint-1.0
+
+      - name: Push dev-sprint-1.0 branch
+        run: |
+              git fetch --prune --unshallow
+              git checkout staging-sprint-1.0
+              git pull origin staging
+              git checkout staging-sprint-1.0
+              git rebase staging-sprint-1.0
+              git push origin staging-sprint-1.0 --force
+
+      - name: create pull request
+        run: gh pr create -B production -H staging-sprint-1.0 --title 'Merge staging-sprint-1.0 into production' --body 'Created by Github action'
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
