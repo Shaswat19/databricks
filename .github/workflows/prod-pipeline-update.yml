@@ -26,3 +26,14 @@ jobs:
           TARGET_DATABRICKS_INSTANCE: ${{ secrets.DATABRICKS_PRODUCTION_INSTANCE }}
           TARGET_DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_PRODUCTION_TOKEN }}
         run: python jobs_update.py
+
+      - name: Install Databricks CLI
+        run: |
+            python -m pip install --upgrade databricks-cli
+  
+      - name: Remote update Staging Repo
+        env:
+            DATABRICKS_HOST: ${{ secrets.DATABRICKS_PRODUCTION_HOST }}
+            DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_PRODUCTION_TOKEN }}
+        run: |
+            databricks repos update --branch production --path /Repos/shaswat.pandey@onebyzero.ai/databricks
