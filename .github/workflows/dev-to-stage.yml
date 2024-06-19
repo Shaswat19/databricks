@@ -6,6 +6,9 @@ on:
       - dev
     types:
       - closed
+  push:
+    branches:
+      - dev
 
 jobs:
   Build:
@@ -45,28 +48,45 @@ jobs:
   create-pull-request:
     needs: [Integration_testing]
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && success()
+    # if: github.event.pull_request.merged == true && success()
 
     steps:
-      - name: checking out code
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: extract git commit data
-        uses: rlespinasse/git-commit-data-action@v1.x
+      - name: Create dev-sprint-1.0 branch
+        run: git branch dev-sprint-1.0
 
-      - name: Update author information
-        run: echo ${{ env.GIT_COMMIT_AUTHOR_NAME }} > AUTHOR
+      - name: Push dev-sprint-1.0 branch
+        run: |
+              git fetch --prune --unshallow
+              git checkout dev-sprint-1.0
+              git pull origin dev
+              git checkout dev-sprint-1.0
+              git rebase dev-sprint-1.0
+              git push origin dev-sprint-1.0 --force
 
-      - name: Raise PR 1
-        id: demo-1
-        uses: peter-evans/create-pull-request@v3
-        with:
-          branch: "dev-sprint-1.0"
-          base: staging
-          title: "demo for auto pr1"
-          committer: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
-          author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
-          body:
-            This is to show automatic PR creation
-          token: ${{ secrets.GITHUB_TOKEN }}
-          delete-branch: true
+      - name: create pull request
+        run: gh pr create -B staging -H dev-sprint-1.0 --title 'Merge dev-sprint-1.0 into staging' --body 'Created by Github action'
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: extract git commit data
+      #   uses: rlespinasse/git-commit-data-action@v1.x
+
+      # - name: Update author information
+      #   run: echo ${{ env.GIT_COMMIT_AUTHOR_NAME }} > AUTHOR
+        
+
+      # - name: Raise PR 
+      #   id: demo-1
+      #   uses: peter-evans/create-pull-request@v3
+      #   with:
+      #     branch: dev-sprint-1.0
+      #     base: staging
+      #     title: "demo for auto pr1"
+      #     committer: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
+      #     author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
+      #     body:
+      #       This is to show automatic PR creation
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     delete-branch: false

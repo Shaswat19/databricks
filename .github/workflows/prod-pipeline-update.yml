@@ -15,6 +15,10 @@ jobs:
         uses: actions/checkout@v2
       - name: Set up Python
         uses: actions/setup-python@v2
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install requests
       - name: Execute Python script
         env:
           SOURCE_DATABRICKS_INSTANCE: ${{ secrets.DATABRICKS_STAGING_INSTANCE }}
